@@ -12,19 +12,29 @@ class Partition{
         LinkedList answer = new LinkedList();
         LinkedList right = new LinkedList();
         Node current = linkedlist.head;
-        Node answerPointer = answer.head;
-        Node rightPointer = right.head;
+        Node answerPointer = null;
+        Node rightPointer = null;
         while(current != null){
             if(current.value < target){
-                answerPointer = new Node(current.value);
-                answerPointer = answerPointer.next;
+                if(answerPointer == null){
+                    answer.head = new Node(current.value);
+                    answerPointer = answer.head;
+                }else{
+                    answerPointer.next = new Node(current.value);
+                    answerPointer = answerPointer.next;
+                }
             }else{
-                rightPointer = new Node(current.value);
-                rightPointer = rightPointer.next;
+                if(rightPointer == null){
+                    right.head = new Node(current.value);
+                    rightPointer = right.head;
+                }else{
+                    rightPointer.next = new Node(current.value);
+                    rightPointer = rightPointer.next;
+                }
             }
             current = current.next;
         }
-        answerPointer = right.head;
+        answerPointer.next = right.head;
         linkedlist.head = answer.head;
     }
 

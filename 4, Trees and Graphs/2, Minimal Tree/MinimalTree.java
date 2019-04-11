@@ -32,16 +32,13 @@ class MinimalTree{
     public static class Node{
         int value;
         Node left=null, right=null;
-        boolean visited = false;
         Node(int value){
             this.value = value;
         }
         void print(){
-            int levels = 0;
             Node current = this;
             LinkedList<Node> rights = new LinkedList<Node>();
             while(current != null){
-                levels++;
                 rights.add(current);
                 current = current.right;
             }

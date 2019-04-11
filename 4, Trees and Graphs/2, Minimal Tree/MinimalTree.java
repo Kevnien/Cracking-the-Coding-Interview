@@ -3,6 +3,7 @@
 
 import java.util.LinkedList;
 class MinimalTree{
+    public static int count = 0;
     public static Node minimalTree(int[] array){
         if(array.length == 0){
             return null;
@@ -11,6 +12,7 @@ class MinimalTree{
     }
 
     public static Node minimalTree(int[] array, int beg, int end){
+        count++;
         if(end < beg){
             return null;
         }
@@ -35,68 +37,31 @@ class MinimalTree{
             this.value = value;
         }
         void print(){
-            LinkedList<Node> queue = new LinkedList<Node>();
             int levels = 0;
             Node current = this;
+            LinkedList<Node> rights = new LinkedList<Node>();
             while(current != null){
                 levels++;
-                current = current.left;
-            }
-            LinkedList<Integer> tabs = getTabs(levels);
-            String[] strings = new String[levels];
-            for(int j=0; j<levels; j++){
-                strings[j] = "";
-                for(int i=0; i<tabs.size(); i++){
-                    strings[j] += "   ";
-                }
+                rights.add(current);
+                current = current.right;
             }
             current = this;
+            LinkedList<Node> queue = new LinkedList<Node>();
             queue.add(current);
-            int count = 0;
-            int cap = 1;
-            int stringsIndex = 0;
             while(queue.size() > 0){
-                current = queue.remove();
-                queue.add(current.left);
-                queue.add(current.right);
-                String toAdd = Integer.toString(current.value);
-                int index = 3*tabs.removeFirst();
-                int stop = index+toAdd.length();
-                int toAddIndex = 0;
-                char[] charArray = strings[stringsIndex].toCharArray();
-                for(; index<stop; index++){
-                    charArray[index] = toAdd.charAt(toAddIndex++);
+                current = queue.removeFirst();
+                if(current.left != null){
+                    queue.add(current.left);
                 }
-                strings[stringsIndex] = new String(charArray);
-                count++;
-                if(count == cap){
-                    count = 0;
-                    cap *= 2;
-                    System.out.println(strings[stringsIndex++]);
+                if(current.right != null){
+                    queue.add(current.right);
+                }
+                System.out.print(current.value+", ");
+                if(current == rights.peek()){
+                    System.out.println();
+                    rights.removeFirst();
                 }
             }
-        }
-        LinkedList<Integer> getTabs(int levels){
-            LinkedList<Integer> answer = new LinkedList<Integer>();
-            int amount = 0;
-            int rowAmount = 1;
-            int level = 1;
-            while(level <= levels){
-                amount += rowAmount;
-                level++;
-                rowAmount *= 2;
-            }
-            getTabs(answer, 0, amount);
-            return answer;
-        }
-        void getTabs(LinkedList<Integer> list, int beg, int end){
-            if(end < beg){
-                return;
-            }
-            int mid = (beg+end)/2;
-            list.add(mid);
-            getTabs(list, beg, mid-1);
-            getTabs(list, mid+1, end);
         }
     }
 }

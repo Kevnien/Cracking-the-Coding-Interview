@@ -26,7 +26,12 @@ function FlipBitToWin(num) {
             total++;
         }
     }
+    if (total > biggest) {
+        biggest = total;
+    }
     return biggest;
 }
 
 console.log(FlipBitToWin(1775));
+console.log(FlipBitToWin(15));
+let number = 15;
